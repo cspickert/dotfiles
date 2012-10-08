@@ -75,5 +75,5 @@ alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
 if [[ -f ~/.localrc ]]
 then
-	source ~/.localrc
+    source ~/.localrc
 fi
