@@ -1,27 +1,79 @@
 #!/usr/bin/env bash
 
-source ~/.bash/aliases
-source ~/.bash/paths
-source ~/.bash/config
+# Path
+
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+
+# History
+
+export HISTSIZE=100000
+export HISTFILESIZE=${HISTSIZE}
+export HISTCONTROL=ignorespace:erasedups
+
+# Editor
 
 export EDITOR=`which emacs`
-export PYTHONSTARTUP=$HOME/.pystartup
+
+# Prompt
+
+export PS1="$ "
+export PROMPT_COMMAND=_promptcmd
+
+_promptcmd() {
+    local username="$(tput setaf 5)$(id -un)$(tput sgr0)"
+    local hostname="$(tput setaf 3)$(hostname)$(tput sgr0)"
+    local cwd="$(tput setaf 2)$(pwd | sed "s,$HOME,~,")$(tput sgr0)"
+    echo -e "${username} at ${hostname} in ${cwd}"
+}
+
+# Options
 
 export CLICOLOR=1
 
-which dircolors &>/dev/null
-if [ $? -eq 0 ]; then
-    if [ -r ~/.dircolors ]; then
-	eval "$(dircolors -b ~/.dircolors)"
-    else
-	eval "$(dircolors -b)"
-    fi
-    cmds=(ls dir vdir grep fgrep egrep)
-    for cmd in ${cmds[@]}; do
-	eval "alias $cmd=\"$cmd --color=auto\""
-    done
-fi
+# Unset shopts (-u)
+shopt -u huponexit      # nohup by default
 
-if [ -f ~/.localrc ]; then
-  . ~/.localrc
+# Set shopts (-s)
+shopt -s histappend     # append instead of rewrite history file
+shopt -s globstar       # enable **
+shopt -s cmdhist        # multi-line cmds in history
+shopt -s lithist        # save newline chars for multiline cmds
+shopt -s dirspell       # dirname autocorrection
+shopt -s cdspell        # autocorrect cd spelling errors
+shopt -s nocaseglob     # case-insensitive completion
+shopt -s histverify     # don't immediately parse history items
+shopt -s checkjobs      # check for running jobs before exiting
+shopt -s checkwinsize   # check window size
+shopt -s extglob        # extended pattern matching
+
+# Aliases
+
+# misc
+alias reload="source ~/.bashrc"
+
+# cd
+alias ..="cd .."
+
+# ls
+alias ls="ls -F"
+alias l="ls -lAh"
+alias ll="ls -l"
+alias la="ls -A"
+
+# git
+alias gl="git pull"
+alias gp="git push"
+alias gd="git diff"
+alias gc="git commit"
+alias gca="git commit -a"
+alias gco="git checkout"
+alias gb="git branch"
+alias gst="git status"
+alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+
+# Local
+
+if [[ -f ~/.localrc ]]
+then
+	source ~/.localrc
 fi
