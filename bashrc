@@ -28,15 +28,12 @@ export EDITOR=`which emacs`
 
 # Prompt
 
-export PS1="$ "
+export PS1="> "
 export PROMPT_COMMAND=_promptcmd
 
 _promptcmd() {
     _history_sync
-    local username="$(tput setaf 5)$(id -un)$(tput sgr0)"
-    local hostname="$(tput setaf 3)$(hostname)$(tput sgr0)"
-    local cwd="$(tput setaf 2)$(pwd | sed "s,$HOME,~,")$(tput sgr0)"
-    echo -e "${username} at ${hostname} in ${cwd}"
+    echo -e "$(tput setaf 8)$(pwd | sed "s,$HOME,~,")$(tput sgr0)"
 }
 
 # Options
@@ -64,6 +61,7 @@ shopt -s extglob        # extended pattern matching
 # misc
 alias reload="source ~/.bashrc"
 alias history=_history
+alias psearch="ps aux | grep -v grep | grep "
 
 # cd
 alias ..="cd .."
