@@ -28,7 +28,7 @@ export EDITOR=`which emacs`
 
 # Prompt
 
-export PS1="> "
+export PS1="$ "
 export PROMPT_COMMAND=_promptcmd
 
 _promptcmd() {
