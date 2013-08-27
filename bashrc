@@ -83,6 +83,16 @@ alias gb="git branch"
 alias gst="git status"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
+if [[ $(type -t __git_complete) = "function" ]]
+then
+    __git_complete gl  _git_pull
+    __git_complete gp  _git_push
+    __git_complete gd  _git_diff
+    __git_complete gc  _git_commit
+    __git_complete gco _git_checkout
+    __git_complete gb  _git_branch
+fi
+
 # Local
 
 if [[ -f ~/.localrc ]]
