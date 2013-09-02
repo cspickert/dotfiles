@@ -28,7 +28,7 @@ export EDITOR=`which emacs`
 
 # Prompt
 
-export PS1="> "
+export PS1="\$ "
 export PROMPT_COMMAND=_promptcmd
 
 _promptcmd() {
@@ -45,16 +45,20 @@ shopt -u huponexit      # nohup by default
 
 # Set shopts (-s)
 shopt -s histappend     # append instead of rewrite history file
-shopt -s globstar       # enable **
 shopt -s cmdhist        # multi-line cmds in history
 shopt -s lithist        # save newline chars for multiline cmds
-shopt -s dirspell       # dirname autocorrection
 shopt -s cdspell        # autocorrect cd spelling errors
 shopt -s nocaseglob     # case-insensitive completion
 shopt -s histverify     # don't immediately parse history items
-shopt -s checkjobs      # check for running jobs before exiting
 shopt -s checkwinsize   # check window size
 shopt -s extglob        # extended pattern matching
+
+if [[ ${BASH_VERSINFO[0]} -gt 4 ]]
+then
+    shopt -s globstar       # enable **
+    shopt -s dirspell       # dirname autocorrection
+    shopt -s checkjobs      # check for running jobs before exiting
+fi
 
 # Aliases
 
